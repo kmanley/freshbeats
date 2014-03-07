@@ -16,7 +16,7 @@ def test():
     for similar_artist in x.similar: 
         print "\t%s" % (similar_artist.name,)
 
-print get_api_key()
-print test()
-
+if __name__ == "__main__":
+    print get_api_key()
+    print test()
 
