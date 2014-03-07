@@ -20,11 +20,11 @@ all: build
 
 build: .buildbase .buildsrc
 
-pull: .rebuildsrc
+pullsrc: .rebuildsrc
 
-dev: .buildsrc .runshell
+dev: .runshell
 
-run: .buildsrc .runweb
+run: .runweb
 
 
 
