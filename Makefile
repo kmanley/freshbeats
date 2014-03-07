@@ -1,16 +1,30 @@
 NAME = kmanley/freshbeats
 VERSION=1.0
 
-all: build
+.buildbase:
+	docker build -t $(NAME)-base:$(VERSION) -rm - < BaseDockerfile 
 
-build:
+.buildsrc:
 	docker build -t $(NAME):$(VERSION) -rm - < Dockerfile 
 
-dev:
-	docker run -i -t -p 5000:5000 kmanley/freshbeats:$(VERSION) /bin/bash
+.rebuildsrc:
+	docker build -t $(NAME):$(VERSION) -rm --no-cache - < Dockerfile 
 
-run:
-	docker run -i -t -p 5000:5000 kmanley/freshbeats:$(VERSION) python src/freshbeats_web.py
+.runshell:
+	docker run -i -t -p 5000:5000 $(NAME):$(VERSION) /bin/bash
+
+.runweb:
+	docker run -i -t -p 5000:5000 $(NAME):$(VERSION) python src/freshbeats_web.py
+
+all: build
+
+build: .buildbase .buildsrc
+
+pull: .rebuildsrc
+
+dev: .buildsrc .runshell
+
+run: .buildsrc .runweb
 
 
 
